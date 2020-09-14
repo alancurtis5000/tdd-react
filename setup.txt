@@ -1,0 +1,152 @@
+Create react app typescript: eslint and prettier
+
+Pre-requisite
+As a first step, I’m going to install create react app with the typescript template.
+npx create-react-app formatting-project --template typescript
+It will take some time installing.
+Step 1: Install dependencies
+For linting:
+npm i -D --save-exact eslint-config-airbnb eslint-config-airbnb-typescript eslint-config-prettier eslint-config-react-app eslint-import-resolver-typescript eslint-loader eslint-plugin-flowtype eslint-plugin-import eslint-plugin-jsx-a11y eslint-plugin-react eslint-plugin-react-hooks babel-eslint @typescript-eslint/parser @typescript-eslint/eslint-plugin
+
+
+For prettier:
+npm i -D --save-exact prettier prettier-eslint prettier-eslint-cli eslint-plugin-prettier
+Step 2: create config files
+All these files go on the root level.
+.eslintrc
+// .eslintrc
+{
+  "plugins": ["prettier", "@typescript-eslint"],
+  "extends": ["airbnb-typescript", "react-app", "prettier"],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "project": "./tsconfig.json"
+  },
+  "settings": {
+    "import/resolver": {
+      "typescript": {
+        "alwaysTryTypes": true
+      }
+    }
+  },
+  "rules": {
+    "object-curly-spacing": ["warn", "always"],
+    "no-unused-vars": [
+      "warn",
+      {
+        "vars": "all",
+        "args": "none"
+      }
+    ],
+    "@typescript-eslint/no-unused-vars": [
+      "warn",
+      {
+        "vars": "all",
+        "args": "none"
+      }
+    ],
+    "@typescript-eslint/no-explicit-any": [
+      "error",
+      {
+        "ignoreRestArgs": true
+      }
+    ],
+    "max-len": [
+      "warn",
+      {
+        "code": 80,
+        "ignoreStrings": true,
+        "ignoreTemplateLiterals": true,
+        "ignoreComments": true
+      }
+    ],
+    "no-plusplus": [
+      "error",
+      {
+        "allowForLoopAfterthoughts": true
+      }
+    ],
+    "react/jsx-key": "error",
+    "import/no-extraneous-dependencies": [
+      "error",
+      {
+        "devDependencies": [
+          "**/*.test.js",
+          "**/*.test.jsx",
+          "**/*.test.ts",
+          "**/*.test.tsx",
+          "src/tests/**/*"
+        ]
+      }
+    ],
+    "react/jsx-props-no-spreading": "off",
+    "import/prefer-default-export": "off",
+    "react/jsx-boolean-value": "off",
+    "react/prop-types": "off",
+    "react/no-unescaped-entities": "off",
+    "react/jsx-one-expression-per-line": "off",
+    "react/jsx-wrap-multilines": "off",
+    "react/destructuring-assignment": "off"
+  }
+}
+.eslintignore
+// .eslintignore
+build/*
+public/*
+src/react-app-env.d.ts
+src/serviceWorker.ts
+.prettierrc
+{
+  "printWidth": 80,
+  "singleQuote": true,
+  "trailingComma": "es5",
+  "tabWidth": 2
+}
+
+
+Step 3: Add the running scripts
+Look for the scripts area in package.json and include these:
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "lint": "eslint --ext .js,.jsx,.ts,.tsx src --color",
+    "format": "prettier --write 'src/**/*.{ts,tsx,scss,css,json}'",
+    "isready": "npm run format && npm run lint && npm run build"
+  },
+The first one npm run lint will run the linting and tell you what is wrong. The second one npm run format will format all the code based on your prettier and linting configuration. At last, a script that is very useful to run before committing and pushing code to git.
+
+
+Step 4: Lint and format your code
+Once you start running the scripts you will start getting errors.
+$ npm run lint
+$ npm run format
+Some of them you may want to ignore so here the way to do it:
+/* eslint-disable no-console, no-param-reassign */ For one or multiple lines
+/* eslint-disable-next-line no-console*/ For next line
+Bob’s your uncle!!
+Improvements
+As I commented previously, there is room for improvement. If you have any comments or suggestions please leave a comment below.
+Visual Studio code autoformat
+If you want your code to autoformat you can include in your project a file:
+// .vscode/settings.json
+{
+  "files.associations": {
+    "*.jsx": "javascriptreact"
+  },
+  "editor.insertSpaces": true,
+  "editor.detectIndentation": false,
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  }
+}
+214
+
+5
+React
+Prettier
+Eslint
+Web Development
+Create React App
